@@ -3,15 +3,19 @@
             [compojure.route :as route]
             [todo.views.pages :as page]
             [todo.views.layouts :as layout]
-            [todo.controllers.routes :refer [routes]]
+            [todo.controllers.routes :as controller]
             [ring.adapter.jetty :as ring]
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
             [ring.middleware.params :refer [wrap-params]]))
 
-(defn start [port]
-  (ring/run-jetty #'routes {:port port
-                            :join? false}))
+
+(defroutes routes
+           controller/routes
+           (route/resources "/")
+           (route/not-found (layout/four_o_four)))
+
+(def app (wrap-params routes))
 
 (defn -main []
-  (start 8080))
+  (ring/run-jetty app {:port 8080 :join? false}))
 
