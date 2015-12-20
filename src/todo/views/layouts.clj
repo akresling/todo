@@ -10,6 +10,11 @@
       [:h2 {:class "container"} "Welcome"]]
      [:div {:class "container content"} body]]))
 
+(defn error_page [err_msg]
+  (common "Error"
+          [:div {:class "error_message"}
+           [:p err_msg]]))
+
 (defn four_o_four []
   (common "Page Not Found"
           [:div {:id "four-oh-four"}
