@@ -10,7 +10,7 @@
    [:ul
     (map (fn [task] [:li [:p (:task task)]]) tasks)]])
 
-(defn get_tasks []
+(defn get_tasks_form []
   [:div {:class "get_tasks"}
    (form/form-to [:post "/tasks"]
                  (anti-forgery/anti-forgery-field)
@@ -18,9 +18,9 @@
                  (form/text-area "username")
                  (form/submit-button "Tasks"))])
 
-(defn add_task []
+(defn add_task_form []
   [:div {:class "add_task"}
-   (form/form-to [:post "/add/task"]
+   (form/form-to [:post "/new/task"]
                  (anti-forgery/anti-forgery-field)
                  (form/label "username" "Enter the user")
                  (form/text-area "username")
@@ -28,17 +28,32 @@
                  (form/text-area "task")
                  (form/submit-button "Add Task"))])
 
-(defn add_task_page []
+(defn add_user_form []
+  [:div {:class "add_user"}
+   (form/form-to [:post "/new/user"]
+                 (anti-forgery/anti-forgery-field)
+                 (form/label "username" "Enter the username")
+                 (form/text-area "username")
+                 (form/submit-button "Add User"))])
+
+(defn add_task []
   (layout/common "Add Task"
                  [:div {:class "container"}
-                  (add_task)]))
+                  [:h3 "Add a new Task"]
+                  (add_task_form)]))
+
+(defn add_user []
+  (layout/common "Add New User"
+                 [:div {:class "container"}
+                  [:h3 "Add a new user"]
+                  (add_user_form)]))
 
 (defn welcome []
   (layout/common "Welcome"
                  [:div {:class "container"}
                   [:div {:class "welcome_heading"}
                    [:h3 "Enter a username"]]
-                  (get_tasks)]))
+                  (get_tasks_form)]))
 
 (defn index [username tasks]
-  (layout/common "TODO" (all_tasks username tasks) (add_task)))
+  (layout/common "TODO" (all_tasks username tasks)))
